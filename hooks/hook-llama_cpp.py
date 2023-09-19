@@ -5,6 +5,10 @@
 # 3. add the --additional-hooks-dir flag to your pyinstaller command:
 #    ex: `pyinstaller --name binary-name --additional-hooks-dir=./hooks entry-point.py`
 
+# Also needed on Mac M1:
+# cd /Users/username/miniforge3/envs/safespace/lib/python3.10/site-packages/llama_cpp/
+# cp libllama.dylib llama.dylib
+
 
 from PyInstaller.utils.hooks import collect_data_files, get_package_paths
 import os, sys

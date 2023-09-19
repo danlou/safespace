@@ -1,23 +1,22 @@
-__version__ = '1.0.0+generic'
+__version__ = '1.0.0+mps'  # platform specific label
 import os, sys, requests, readline
 from datetime import datetime as dt
-from llama_cpp import Llama
+os.system('cls' if os.name == 'nt' else 'clear')
 
 from rich.progress import track
 from rich.console import Console
 console = Console()
-os.system('cls' if os.name == 'nt' else 'clear')
 
 default_model = "https://huggingface.co/danlou/safespace-7b-gguf/resolve/main/safespace-1.0-7b-q4_0.gguf"
 ctx_size = 4096
 
 
-def sys_print(text, color='blue_violet'):
+def sys_print(text, color='bright_cyan'):
     console.print(f"[{color}][bold]>[/bold] {text}[/{color}]", highlight=False)
 
-
 def user_input(max_len=2048):
-    input_str = console.input('[bright_white][bold]>[/bold] ').strip()
+    console.print('[bright_white][bold]>[/bold] ', end='')
+    input_str = console.input().strip()
 
     if input_str in {'q', 'quit', 'exit', 'close', 'bye'}:
         sys.exit()
@@ -29,8 +28,7 @@ def user_input(max_len=2048):
     
     return input_str
 
-
-def download_model(url, models_dir, block_sz=8192):
+def download_model(url, models_dir='safespace_models/', block_sz=8192):
     response = requests.get(url, stream=True)
     response.raise_for_status()
 
@@ -42,7 +40,6 @@ def download_model(url, models_dir, block_sz=8192):
                            total=model_sz//block_sz):
             out_file.write(chunk)
 
-
 def get_model_path(models_dir='safespace_models/', ext='gguf'):  # models_dir in the same path as binary
     os.makedirs(models_dir, exist_ok=True)
     fns = [os.path.join(models_dir, f) for f in os.listdir(models_dir) if f.endswith(f'.{ext}')]
@@ -52,7 +49,6 @@ def get_model_path(models_dir='safespace_models/', ext='gguf'):  # models_dir in
         return os.path.join(models_dir, default_model.split('/')[-1])
     
     return max(fns, key=os.path.getmtime)  # use most recent if several found
-
 
 pct_warned = {pct: False for pct in range(0, 100)}
 def warn_session_length(total_tokens):
@@ -70,13 +66,17 @@ def warn_session_length(total_tokens):
 
 if __name__ == '__main__':
 
-    console.print(f'[bold]safespace (v{__version__})[/bold] - Fully private and local AI counselling.', highlight=False)
+    console.print(f'[bold][bright_cyan]safespace[/bright_cyan][/bold] (v{__version__}) - Private and local AI counselling.', highlight=False)
     console.print('Visit https://github.com/danlou/safespace for more details.\n')
 
-    llm = Llama(model_path=get_model_path(), n_ctx=ctx_size, verbose=False,
-                use_mlock=True, use_mmap=False)  # 4.5GB of RAM with default model
+    if '--force-download' in sys.argv[1:]:
+        download_model(default_model)
 
-    sys_msg = "This app is called safespace, and you are a Rogerian therapist."
+    from llama_cpp import Llama
+    llm = Llama(model_path=get_model_path(), n_ctx=ctx_size, verbose=False,
+                use_mlock=True, use_mmap=False)  # ~5GB of RAM with default model (depends on platform)
+
+    sys_msg = "This app is called safespace, and you are a Rogerian counsellor."
     sys_msg += " You facilitate an environment in which the user can bring about positive change."
     sys_msg += f" Time/Date: {dt.now().strftime('%I:%M %p / %d %B %Y')}. No internet access."
 
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     while True: # exits when context size exceeds 99% capacity
         
         # call llm, report session length
-        with console.status("[magenta]Thinking ...", spinner='dots', spinner_style='bold magenta'):
+        with console.status("[bright_cyan]Thinking...", spinner='dots', spinner_style='bold bright_cyan'):
             output = llm(prompt, max_tokens=ctx_size, temperature=0.9, echo=True)
             
             model_response = output['choices'][0]['text'].split('ASSISTANT: ')[-1].strip()
