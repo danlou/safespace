@@ -1,0 +1,3 @@
+requests
+rich
+llama-cpp-python
