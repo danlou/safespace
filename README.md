@@ -1,6 +1,6 @@
 # 🫧 safespace
 
-![alt text](https://github.com/danlou/safespace/blob/main/safespace_promo.png?raw=true)
+![promo](https://github.com/danlou/safespace/blob/main/safespace_promo.png?raw=true)
 
 **safespace** is a lightweight LLM that can run on your laptop (or desktop) to help you navigate whatever personal issues or concerns may be troubling you.
 It's trained to be non-judgemental and support you in coming up with solutions on your [own](https://en.wikipedia.org/wiki/Person-centered_therapy).
@@ -15,7 +15,7 @@ If you know about [ELIZA](https://en.wikipedia.org/wiki/ELIZA), you can think of
 - **Free**: Use it as much as you want.
 
 ## How to Use
-...
+![demo](https://github.com/danlou/safespace/blob/main/safespace_demo.mp4?raw=true)
 
 ## Model Details
 **safespace** uses a Llama v2 7B model that has been 4-bit quantized using [llama.cpp](https://github.com/ggerganov/llama.cpp) to run efficiently on CPUs.
