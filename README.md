@@ -17,9 +17,7 @@ If you know about [ELIZA](https://en.wikipedia.org/wiki/ELIZA), you can think of
 Note: This model, like all LLMs, can hallucinate. It can sometimes refer to past conversations which never took place (and are not registered in any case). In rare occassions, it might also make ill-advised suggestions (in spite of its training) - use with common sense.
 
 ## Video Demo
-https://github.com/danlou/safespace/assets/16802508/40f2efe5-8586-40e7-a0a5-009814058138
-
-[View on asciinema](https://asciinema.org/a/609208)
+[![asciicast](https://asciinema.org/a/609208.svg)](https://asciinema.org/a/609208)
 
 ## Quickstart
 
