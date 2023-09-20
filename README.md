@@ -38,6 +38,12 @@ The application will search for a `safespace_models` in the same directory. If n
 ./safespace --force-download
 ```
 
+If you get a 'Permission Denied' error, try setting permissions before running:
+
+```bash
+chmod +x safespace
+```
+
 You might also be able to run the binary by double-clicking on the downloaded binary file, but this hasn't been tested carefully yet.
 
 ## Running from Python
