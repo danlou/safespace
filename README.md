@@ -14,6 +14,8 @@ If you know about [ELIZA](https://en.wikipedia.org/wiki/ELIZA), you can think of
 - **Transparent**: App is contained in the 100 lines of [safespace.py](https://github.com/danlou/safespace/blob/main/safespace.py) - have a look at what it's doing.
 - **Free**: Use it as much as you want.
 
+Note: This model, like all LLMs, can hallucinate. It can sometimes refer to past conversations which never took place (and are not registered in any case). In rare occassions, it might also make ill-advised suggestions (in spite of its training) - use with common sense.
+
 ## Video Demo
 https://github.com/danlou/safespace/assets/16802508/40f2efe5-8586-40e7-a0a5-009814058138
 
