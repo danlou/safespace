@@ -15,7 +15,8 @@ If you know about [ELIZA](https://en.wikipedia.org/wiki/ELIZA), you can think of
 - **Free**: Use it as much as you want.
 
 ## How to Use
-![demo](https://github.com/danlou/safespace/blob/main/safespace_demo.mp4?raw=true)
+https://github.com/danlou/safespace/assets/16802508/40f2efe5-8586-40e7-a0a5-009814058138
+
 
 ## Model Details
 **safespace** uses a Llama v2 7B model that has been 4-bit quantized using [llama.cpp](https://github.com/ggerganov/llama.cpp) to run efficiently on CPUs.
