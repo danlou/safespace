@@ -1,15 +1,14 @@
 __version__ = '1.0.0+mps'  # platform specific label
+print('Loading...')
 import os, sys, requests, readline
 from datetime import datetime as dt
-os.system('cls' if os.name == 'nt' else 'clear')
-
 from rich.progress import track
 from rich.console import Console
-console = Console()
+console = Console(width=99)
+os.system('cls' if os.name == 'nt' else 'clear')
 
 default_model = "https://huggingface.co/danlou/safespace-7b-gguf/resolve/main/safespace-1.0-7b-q4_0.gguf"
 ctx_size = 4096
-
 
 def sys_print(text, color='bright_cyan'):
     console.print(f"[{color}][bold]>[/bold] {text}[/{color}]", highlight=False)
@@ -72,17 +71,19 @@ if __name__ == '__main__':
     if '--force-download' in sys.argv[1:]:
         download_model(default_model)
 
-    from llama_cpp import Llama
-    llm = Llama(model_path=get_model_path(), n_ctx=ctx_size, verbose=False,
-                use_mlock=True, use_mmap=False)  # ~5GB of RAM with default model (depends on platform)
+    with console.status("[bright_cyan]Loading...", spinner='dots', spinner_style='bold bright_cyan'):
+        from llama_cpp import Llama
+        llm = Llama(model_path=get_model_path(), n_ctx=ctx_size, verbose=False,
+                    use_mlock=True, use_mmap=False)  # ~5GB of RAM with default model (depends on platform)
 
-    sys_msg = "This app is called safespace, and you are a Rogerian counsellor."
-    sys_msg += " You facilitate an environment in which the user can bring about positive change."
-    sys_msg += f" Time/Date: {dt.now().strftime('%I:%M %p / %d %B %Y')}. No internet access."
+    sys_msg = "This app is called safespace, and you are a Rogerian counselor."
+    sys_msg += " You facilitate an environment in which the user can quickly bring about positive change."
+    sys_msg += " You do not remember past conversations, and pay close attention to every detail of the current conversation."
+    sys_msg += f" Time/Date: {dt.now().strftime('%I:%M %p / %d %B %Y')}. There is no internet access."
 
     sys_print("[u]Ready[/u]. Tell me what troubles you ('q' to exit).")
     starter = user_input()
-    prompt = f"{sys_msg} USER: Hi. {starter} ASSISTANT:"  # model expects greeting
+    prompt = f"{sys_msg} USER: {starter} ASSISTANT: Hi! What would you like to talk about? USER: {starter} ASSISTANT:"
 
     while True: # exits when context size exceeds 99% capacity
         
