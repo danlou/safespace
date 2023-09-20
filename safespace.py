@@ -4,7 +4,7 @@ import os, sys, requests, readline
 from datetime import datetime as dt
 from rich.progress import track
 from rich.console import Console
-console = Console(width=99)
+console = Console()
 os.system('cls' if os.name == 'nt' else 'clear')
 
 default_model = "https://huggingface.co/danlou/safespace-7b-gguf/resolve/main/safespace-1.0-7b-q4_0.gguf"
@@ -18,6 +18,7 @@ def user_input(max_len=2048):
     input_str = console.input().strip()
 
     if input_str in {'q', 'quit', 'exit', 'close', 'bye'}:
+        os.system('cls' if os.name == 'nt' else 'clear')
         sys.exit()
     elif len(input_str) == 0:
         input_str = '(no answer)'
@@ -65,15 +66,16 @@ def warn_session_length(total_tokens):
 
 if __name__ == '__main__':
 
-    console.print(f'[bold][bright_cyan]safespace[/bright_cyan][/bold] (v{__version__}) - Private and local AI counselling.', highlight=False)
+    console.print(f'[bold][bright_cyan]safespace[/bright_cyan][/bold] (v{__version__}) - Private and local AI counseling.', highlight=False)
     console.print('Visit https://github.com/danlou/safespace for more details.\n')
 
     if '--force-download' in sys.argv[1:]:
         download_model(default_model)
+    model_path = get_model_path()
 
     with console.status("[bright_cyan]Loading...", spinner='dots', spinner_style='bold bright_cyan'):
         from llama_cpp import Llama
-        llm = Llama(model_path=get_model_path(), n_ctx=ctx_size, verbose=False,
+        llm = Llama(model_path, n_ctx=ctx_size, verbose=False,
                     use_mlock=True, use_mmap=False)  # ~5GB of RAM with default model (depends on platform)
 
     sys_msg = "This app is called safespace, and you are a Rogerian counselor."
@@ -87,14 +89,12 @@ if __name__ == '__main__':
 
     while True: # exits when context size exceeds 99% capacity
         
-        # call llm, report session length
         with console.status("[bright_cyan]Thinking...", spinner='dots', spinner_style='bold bright_cyan'):
-            output = llm(prompt, max_tokens=ctx_size, temperature=0.9, echo=True)
+            output = llm(prompt, max_tokens=ctx_size, temperature=0.7, echo=True)
             
             model_response = output['choices'][0]['text'].split('ASSISTANT: ')[-1].strip()
             sys_print(model_response)
             warn_session_length(output['usage']['total_tokens'])
         
-        # request user input, update prompt for next conversation turn
         reply = user_input()
         prompt = f"{output['choices'][0]['text']} USER: {reply} ASSISTANT:"
