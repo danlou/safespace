@@ -66,7 +66,7 @@ While this project has minimal dependencies, it may still be advisable to use a 
 In particular, it uses a custom fine-tuned model trained on a synthetic dataset of transcripts of therapy sessions with a Rogerian therapist. The sessions in this synthetic dataset are derived from a compilation of reddit posts on subreddits related to mental health (r/adhd, r/depression, r/aspergers, ...).
 We make our synthetic dataset available [here](https://huggingface.co/datasets/danlou/safespace-8877-20230920), and the reddit dataset may be found [here](https://huggingface.co/datasets/solomonk/reddit_mental_health_posts).
 
-Our model is fine-tuned from the [Samantha-1.11](https://huggingface.co/ehartford/Samantha-1.11-7b) model (by [@ehartford](https://x.com/erhartford)) which, in turn, is a fine-tune of original Llama v2 checkpoints towards developing a companion trained on philosophy, psychology, and personal relationships.
+Our model is fine-tuned from the [Samantha-1.11](https://huggingface.co/ehartford/Samantha-1.11-7b) model (by [@ehartford](https://x.com/erhartford), see [blog post](https://erichartford.com/meet-samantha)) which, in turn, is a fine-tune of original Llama v2 checkpoints towards developing a companion trained on philosophy, psychology, and personal relationships.
 
 [<img src="https://raw.githubusercontent.com/OpenAccess-AI-Collective/axolotl/main/image/axolotl-badge-web.png" alt="Built with Axolotl" width="200" height="32"/>](https://github.com/OpenAccess-AI-Collective/axolotl)
 
